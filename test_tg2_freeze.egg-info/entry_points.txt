@@ -1,0 +1,6 @@
+[gearbox.plugins]
+turbogears-devtools = tg.devtools
+
+[paste.app_factory]
+main = testtg2freeze.config.middleware:make_app
+

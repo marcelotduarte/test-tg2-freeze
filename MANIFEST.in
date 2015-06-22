@@ -1,0 +1,4 @@
+recursive-include testtg2freeze/public *
+include testtg2freeze/public/favicon.ico
+recursive-include testtg2freeze/i18n *
+recursive-include testtg2freeze/templates *
