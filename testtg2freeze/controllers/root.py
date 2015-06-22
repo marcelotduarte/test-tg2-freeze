@@ -55,6 +55,20 @@ class RootController(BaseController):
         """This method showcases TG's access to the wsgi environment."""
         return dict(page='environ', environment=request.environ)
 
+    @expose('testtg2freeze.templates.users')
+    def users(self):
+        """This method showcases TG's access sqlalchemy and tw2."""
+        from tw2.forms import DataGrid
+        from testtg2freeze.model import User
+        users = DBSession.query(User)
+        users_grid = DataGrid(fields=[('ID', 'user_id'),
+                                ('Username', 'user_name'),
+                                ('Email', 'email_address'),
+                                ('Name', 'display_name'),
+                                ('Created', lambda d:d.created.strftime('%d/%m/%Y')) #date format in Brazil
+                                ])
+        return dict(page='users', grid=users_grid, data=users)
+
     @expose('testtg2freeze.templates.data')
     @expose('json')
     def data(self, **kw):

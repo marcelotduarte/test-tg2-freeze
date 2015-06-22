@@ -10,7 +10,82 @@ from tg.configuration import AppConfig
 import testtg2freeze
 from testtg2freeze import model, lib
 
-base_config = AppConfig()
+import sys
+if getattr(sys, 'frozen', False) and '--patch' in sys.argv:
+    from tg.support.statics import StaticsMiddleware, FileServeApp, HTTPForbidden, time, _FileIter, _BLOCK_SIZE
+    import mimetypes
+    from pkg_resources import resource_exists, resource_stream, ResolutionError, ExtractionError
+    
+    class FrozenFileServeApp(FileServeApp):
+        def __init__(self, package, path, cache_max_age):
+            self.package = package
+            self.path = path
+            self.last_modified = 0#getmtime(path)
+            self.content_length = 0#getsize(path)
+            self.cache_expires = cache_max_age
+            content_type, content_encoding = mimetypes.guess_type(path, strict=False)
+            if content_type is None:
+                content_type = 'application/octet-stream'
+    
+            self.content_type = content_type
+            self.content_encoding = content_encoding
+            
+        def __call__(self, environ, start_response):
+            try:
+                fp = resource_stream(self.package, self.path)
+            except (ResolutionError, ExtractionError) as e:
+                return HTTPForbidden('You are not permitted to view this file (%s)' % e)(environ, start_response)
+            except Exception as e:
+                return HTTPForbidden('Unknown exception (%s)' % e)(environ, start_response)
+    
+            headers = []
+            timeout = self.cache_expires
+            etag = self.generate_etag()
+            headers += [('Etag', '%s' % etag),
+                ('Cache-Control', 'max-age=%d, public' % timeout)]
+    
+            if not self.has_been_modified(environ, etag, self.last_modified):
+                fp.close()
+                start_response('304 Not Modified', headers)
+                return []
+    
+            headers.extend((
+                ('Expires', self.make_date(time() + timeout)),
+                ('Content-Type', self.content_type),
+                #('Content-Length', str(self.content_length)),
+                ('Last-Modified', self.make_date(self.last_modified))
+                ))
+            print(headers)
+            start_response('200 OK', headers)
+            #return environ.get('wsgi.file_wrapper', _FileIter)(fp, _BLOCK_SIZE)
+            return iter(lambda: fp.read(_BLOCK_SIZE), '')
+    
+    class FrozenStaticsMiddleware(StaticsMiddleware):
+        def __init__(self, app, package, root_dir, cache_max_age=3600):
+            super(FrozenStaticsMiddleware, self).__init__(app, root_dir, cache_max_age)
+            self.package = package
+            
+        def __call__(self, environ, start_response):
+            full_path = environ['PATH_INFO']
+            print('full_path', full_path)
+            if full_path is not None and full_path != '/': 
+                filepath = self.doc_root + full_path
+                print('procurando', self.package, filepath)
+                if resource_exists(self.package, filepath):
+                    print('encontrado', self.package, filepath)
+                    return FrozenFileServeApp(self.package, filepath, self.cache_max_age)(environ, start_response)
+    
+            return self.app(environ, start_response)
+
+    class FrozenAppConfig(AppConfig):
+        def add_static_file_middleware(self, app):
+            app = FrozenStaticsMiddleware(app, 'tw2', 'resources')
+            app = FrozenStaticsMiddleware(app, self.package_name, 'public')
+            return app
+    
+    base_config = FrozenAppConfig()
+else:
+    base_config = AppConfig()
 base_config.renderers = []
 
 # True to prevent dispatcher from striping extensions
