@@ -16,7 +16,8 @@ See the comments in setup_cx.py, especially:
 # mysql: easy_install -Z mysql-python
 # or use pymysql
 
-The patch to tg2 must be applied (See https://github.com/TurboGears/tg2/pull/62).
+Tg2 patch is https://github.com/TurboGears/tg2/pull/62
+To support tw2, the patch is https://github.com/toscawidgets/tw2.core/pull/115
 
 Run:
 python setup_cx.py
