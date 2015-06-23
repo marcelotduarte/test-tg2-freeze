@@ -7,25 +7,18 @@ from testtg2freeze.config.app_cfg import base_config
 base_config['sqlalchemy.url'] = 'sqlite:///devdata.db'
 #base_config['templating.genshi.name_constant_patch'] = True  #PY3
 #base_config['debug'] = True
-#base_config['use_dotted_templatenames'] = False
 base_config.auto_reload_templates = False 
 base_config.use_toscawidgets = False
 base_config.use_toscawidgets2 = True
-#custom_tw2_config = {#'controller_prefix':'/tw2/controllers/',
-#                     'res_prefix':'/resources/',}
-#base_config['paths']['templates'] = 'pesquisa1x/templates'
+#base_config['paths']['templates'] = 'testtg2freeze/templates'
+if getattr(sys, 'frozen', False):
+    base_config.custom_tw2_config = {'serve_resources':False, 'serve_controllers':False}#'res_prefix':'/../../',}
 app = base_config.make_wsgi_app()
 
 if getattr(sys, 'frozen', False):
     if '--patch' in sys.argv: 
         dotted_filename_finder = base_config['tg.app_globals']['dotted_filename_finder']
         dotted_filename_finder.get_dotted_filename(base_config.package_name+'.templates.master')
-    #test - in a frozen app, the location of tw2 resources are different
-    from pkg_resources import resource_string
-    print(resource_string('tw2', 'resources/tw2/resources/tw2.forms/static/forms.css'))
-else:
-    from pkg_resources import resource_string
-    print(resource_string('tw2.forms', 'static/forms.css'))
 
 if __name__ == '__main__':
     if 'wsgiref' in sys.argv:  #for testing purposes

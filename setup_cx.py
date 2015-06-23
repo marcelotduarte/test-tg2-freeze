@@ -56,12 +56,12 @@ def z_files(path_base, path_data):
     print(str(zip_includes).replace('),', '),\n'))      
     return zip_includes
 
-include_files = [(site.getsitepackages()[1]+"\\tw2\\forms\\static\\calendar", "resources\\tw2.forms\\static\\calendar")]
-
+include_files = []
 zip_includes =  z_files(site.getsitepackages()[1]+"\\tw2\\core\\i18n", "tw2/resources/tw2/resources/tw2.core/i18n") +\
-                z_files(site.getsitepackages()[1]+"\\tw2\\core\\templates", "tw2/core\\templates") +\
+                z_files(site.getsitepackages()[1]+"\\tw2\\core\\templates", "tw2/core/templates") +\
+                z_files(site.getsitepackages()[1]+"\\tw2\\forms\\templates", "tw2/forms/templates") +\
+                z_files(site.getsitepackages()[1]+"\\tw2\\forms\\static", "tw2/forms/static") +\
                 z_files(site.getsitepackages()[1]+"\\tw2\\forms\\static", "tw2/resources/tw2/resources/tw2.forms/static") +\
-                z_files(site.getsitepackages()[1]+"\\tw2\\forms\\templates", "tw2/forms\\templates") +\
                 z_files(project+"\\templates", project+"/templates") +\
                 z_files(project+"\\public", project+"/public")
                 

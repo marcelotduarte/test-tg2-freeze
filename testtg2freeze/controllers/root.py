@@ -69,6 +69,20 @@ class RootController(BaseController):
                                 ])
         return dict(page='users', grid=users_grid, data=users)
 
+    @expose('testtg2freeze.templates.date')
+    def date(self, date1=None):
+        """This method ..."""
+        if date1 is not None:
+            flash(_('Last selected date is '+date1), 'warning')
+
+        from tw2.forms import Form, TableLayout, CalendarDatePicker
+        class CDP(Form):
+            title = 'Select a date'
+            class child(TableLayout):
+                date1 = CalendarDatePicker(label="Date")
+ 
+        return dict(page='date', form=CDP)
+
     @expose('testtg2freeze.templates.data')
     @expose('json')
     def data(self, **kw):

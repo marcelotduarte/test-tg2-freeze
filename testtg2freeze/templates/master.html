@@ -33,7 +33,8 @@
         <li class="${('', 'active')[value_of('page') == 'about']}"><a href="${tg.url('/about')}">About</a></li>
         <li class="${('', 'active')[value_of('page') == 'data']}"><a href="${tg.url('/data')}">Serving Data</a></li>
         <li class="${('', 'active')[value_of('page') == 'environ']}"><a href="${tg.url('/environ')}">WSGI Environment</a></li>
-        <li class="${('', 'active')[value_of('page') == 'users']}"><a href="${tg.url('/users')}">tw2.forms.Datagrid</a></li>
+        <li class="${('', 'active')[value_of('page') == 'users']}"><a href="${tg.url('/users')}">Users Datagrid</a></li>
+        <li class="${('', 'active')[value_of('page') == 'date']}"><a href="${tg.url('/date')}">DatePicker</a></li>
       </ul>
 
       <ul py:if="tg.auth_stack_enabled" class="nav navbar-nav navbar-right">
