@@ -10,6 +10,7 @@ py2exe don't support namespaces and a ugly hack freeze it but don´t run.
 The folowing must be observed:
 - Install all the namespace packages with 'pip install' or 'easy_install -Z'.
 - If necessary uninstall it and reinstall, including other packages not used, but in the same namespace.
+
 Example:
 	´pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb´
 	´pip install tgext.admin tgext.asyncjob´
@@ -17,7 +18,7 @@ Example:
 if you want install tgext.wdb, tgext.crud is auto installed within tgext.admin
 
 Example for mysql (use easy_install to install de binary package):
-	easy_install -Z mysql-python
+	´easy_install -Z mysql-python´
 
 If you use pymysql, install with pip.
 
