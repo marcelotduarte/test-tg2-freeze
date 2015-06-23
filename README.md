@@ -2,19 +2,21 @@
 A test and example on how to freeze a turbogears app
 
 To use this example is easy.
+
 It´s tested using python 2.7 (Python 2.7.10 on windows)
-To freeze I'm using cx_Freeze.
+To freeze I'm using cx-Freeze 4.3.4.
 py2exe don't support namespaces and a ugly hack freeze it but don´t run.
 
-See the comments in setup_cx.py, especially:
-# The namespace packages must be installed all with 'pip install' or 'easy_install -Z'
-# If necessary uninstall it and reinstall.
-# Other packages not used, but in in the same namespace, must be reinstalled. 
-# pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb
-# pip install tgext.admin tgext.asyncjob
-# if you want install tgext.wdb, crud is auto installed by admin
-# mysql: easy_install -Z mysql-python
-# or use pymysql
+The folowing must be observed:
+- Install all the namespace packages with 'pip install' or 'easy_install -Z'.
+- If necessary uninstall it and reinstall, including other packages not used, but in the same namespace.
+Example:
+	pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb
+	pip install tgext.admin tgext.asyncjob
+if you want install tgext.wdb, tgext.crud is auto installed within tgext.admin
+Example for mysql (use easy_install to install de binary package):
+	easy_install -Z mysql-python
+If you use pymysql, install with pip.
 
 Tg2 patch is https://github.com/TurboGears/tg2/pull/62
 To support tw2, the patch is https://github.com/toscawidgets/tw2.core/pull/115
