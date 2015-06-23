@@ -15,6 +15,7 @@ Example:
 
 `
 pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb
+
 pip install tgext.admin tgext.asyncjob
 `
 
@@ -50,6 +51,7 @@ Run:
 cd build\exe.win32-2.7
 
 serve [wsgiref] [--patch]
+
 `
 
 option wsgiref - using library wsgiref ou otherwise cherrypy
