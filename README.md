@@ -12,7 +12,7 @@ The folowing must be observed:
 - If necessary uninstall it and reinstall, including other packages not used, but in the same namespace.
 
 Example:
-	´pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb´
+	'pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb'
 	´pip install tgext.admin tgext.asyncjob´
 
 if you want install tgext.wdb, tgext.crud is auto installed within tgext.admin
