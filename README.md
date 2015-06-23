@@ -12,13 +12,18 @@ The folowing must be observed:
 - If necessary uninstall it and reinstall, including other packages not used, but in the same namespace.
 
 Example:
-	`pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb
-	pip install tgext.admin tgext.asyncjob`
+
+`
+pip uninstall tgext.admin tgext.crud tgext.asyncjob tgext.wdb
+pip install tgext.admin tgext.asyncjob
+`
 
 if you want install tgext.wdb, tgext.crud is auto installed within tgext.admin
 
 Example for mysql (use easy_install to install de binary package):
-	´easy_install -Z mysql-python´
+`
+easy_install -Z mysql-python
+`
 
 If you use pymysql, install with pip.
 
@@ -31,13 +36,17 @@ https://github.com/toscawidgets/tw2.core/pull/115
 https://github.com/toscawidgets/tw2.forms/pull/43
 
 Run:
+`
 python setup_cx.py
+`
 
 The windows executable will be in build\exe.win32-2.7
 
 Run:
+`
 cd build\exe.win32-2.7
 serve [wsgiref] [--patch]
+`
 
 option wsgiref - using library wsgiref ou otherwise cherrypy
 
